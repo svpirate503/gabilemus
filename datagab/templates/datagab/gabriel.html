@@ -1,0 +1,729 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Onan Gabriel Lemus Hernandez · Software Engineer</title>
+  <meta name="description" content="Portfolio of Onan Gabriel Lemus Hernandez, a software engineer with more than 5 years building web applications.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #070708;
+      --ink: #ffffff;
+      --muted: rgba(255, 255, 255, 0.64);
+      --line: rgba(255, 255, 255, 0.16);
+      --header: 72px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Outfit, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    img, svg { display: block; max-width: 100%; }
+
+    .skip {
+      position: absolute;
+      left: 1rem;
+      top: -3rem;
+      background: #fff;
+      color: #000;
+      padding: 0.45rem 0.75rem;
+      z-index: 20;
+    }
+
+    .skip:focus { top: 0.75rem; }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      height: var(--header);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      background: rgba(7, 7, 8, 0.82);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid transparent;
+    }
+
+    .nav.is-scrolled { border-bottom-color: var(--line); }
+
+    .word {
+      font-size: 0.82rem;
+      letter-spacing: 0.18em;
+      font-weight: 500;
+    }
+
+    .menu {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      font-size: 0.92rem;
+    }
+
+    .menu a {
+      border-bottom: 1px solid transparent;
+      padding-bottom: 0.1rem;
+    }
+
+    .menu a:hover { border-bottom-color: #fff; }
+
+    .hero {
+      min-height: calc(100vh - var(--header));
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      align-items: center;
+      gap: 4rem;
+      width: min(1180px, calc(100% - 4rem));
+      margin: 0 auto;
+      padding: 3rem 0 4rem;
+    }
+
+    .portrait {
+      margin: 0;
+    }
+
+    .portrait img {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      object-position: center 18%;
+      border-radius: 28px;
+      border: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      margin: 0 0 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.8rem, 5.4vw, 5rem);
+      line-height: 0.98;
+      font-weight: 500;
+      letter-spacing: -0.045em;
+    }
+
+    .role {
+      margin: 1.25rem 0 0;
+      font-size: 1.35rem;
+      font-weight: 400;
+    }
+
+    .lede {
+      margin: 1rem 0 0;
+      max-width: 28rem;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .years {
+      display: flex;
+      align-items: baseline;
+      gap: 0.85rem;
+      margin-top: 2.2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .years strong {
+      font-size: clamp(3rem, 5vw, 4.2rem);
+      font-weight: 500;
+      letter-spacing: -0.05em;
+      line-height: 1;
+    }
+
+    .years span {
+      color: var(--muted);
+      max-width: 14rem;
+    }
+
+    .stack {
+      padding: 2rem 0 6rem;
+      scroll-margin-top: var(--header);
+    }
+
+    .stack-head {
+      width: min(1180px, calc(100% - 4rem));
+      margin: 0 auto 2.5rem;
+    }
+
+    .stack-head h2 {
+      margin: 0;
+      font-size: clamp(2rem, 3vw, 2.6rem);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+    }
+
+    .wave {
+      list-style: none;
+      margin: 0 auto;
+      padding: 1.5rem 0 2rem;
+      width: min(1180px, calc(100% - 3rem));
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.75rem;
+    }
+
+    .tech {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.85rem;
+      text-align: center;
+      animation: wave 6.4s ease-in-out infinite;
+    }
+
+    .tech:nth-child(1) { animation-delay: 0s; }
+    .tech:nth-child(2) { animation-delay: -0.8s; }
+    .tech:nth-child(3) { animation-delay: -1.6s; }
+    .tech:nth-child(4) { animation-delay: -2.4s; }
+    .tech:nth-child(5) { animation-delay: -3.2s; }
+    .tech:nth-child(6) { animation-delay: -4s; }
+    .tech:nth-child(7) { animation-delay: -4.8s; }
+
+    .orb {
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      background: rgba(255, 255, 255, 0.03);
+      display: grid;
+      place-items: center;
+    }
+
+    .orb svg { width: 40px; height: 40px; }
+
+    .tech p {
+      margin: 0;
+      font-size: 0.86rem;
+      letter-spacing: 0.01em;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 1.5rem 2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .contact {
+      width: min(1180px, calc(100% - 4rem));
+      margin: 0 auto 6rem;
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 4rem;
+      align-items: start;
+      scroll-margin-top: calc(var(--header) + 1.5rem);
+    }
+
+    .contact h2 {
+      margin: 0;
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+
+    .contact .lede { max-width: 26rem; }
+
+    .panel {
+      position: relative;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 1.6rem 1.6rem 1.4rem;
+      background: rgba(255, 255, 255, 0.03);
+      transition: border-color 0.35s ease;
+    }
+
+    .panel:focus-within { border-color: rgba(255, 255, 255, 0.45); }
+
+    .form-body {
+      display: grid;
+      gap: 1.35rem;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .panel.is-sent .form-body {
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+    }
+
+    .field {
+      position: relative;
+      display: block;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      background: transparent;
+      color: var(--ink);
+      font: inherit;
+      font-size: 1rem;
+      padding: 1.35rem 0 0.55rem;
+      border-radius: 0;
+      outline: none;
+      resize: vertical;
+    }
+
+    .field textarea { min-height: 7.5rem; }
+
+    .field span {
+      position: absolute;
+      left: 0;
+      top: 1.15rem;
+      color: var(--muted);
+      transform-origin: left center;
+      transition: transform 0.22s ease, color 0.22s ease;
+      pointer-events: none;
+    }
+
+    .field input:focus + span,
+    .field input:not(:placeholder-shown) + span,
+    .field textarea:focus + span,
+    .field textarea:not(:placeholder-shown) + span {
+      transform: translateY(-0.95rem) scale(0.82);
+      color: #fff;
+    }
+
+    .field.is-invalid input,
+    .field.is-invalid textarea { border-bottom-color: #ff8f8f; }
+
+    .field-error {
+      min-height: 0;
+      margin: 0.35rem 0 0;
+      color: #ffb4b4;
+      font-size: 0.82rem;
+    }
+
+    .field-error:empty { display: none; }
+
+    .choice-label {
+      margin: 0 0 0.7rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
+
+    .pill input {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .pill span {
+      display: inline-flex;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.48rem 0.95rem;
+      transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
+    }
+
+    .pill:hover span { transform: translateY(-2px); }
+
+    .pill input:checked + span {
+      background: #fff;
+      color: #070708;
+      border-color: #fff;
+    }
+
+    .pill input:focus-visible + span {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+    }
+
+    .turnstile { margin-top: 0.2rem; }
+
+    .send {
+      justify-self: start;
+      border: 0;
+      border-radius: 999px;
+      background: #fff;
+      color: #070708;
+      font: inherit;
+      font-weight: 500;
+      padding: 0.85rem 1.4rem;
+      cursor: pointer;
+      transition: transform 0.22s ease, opacity 0.22s ease;
+    }
+
+    .send:hover { transform: translateY(-2px); }
+
+    .send.is-loading {
+      opacity: 0.72;
+      pointer-events: none;
+    }
+
+    .form-status {
+      min-height: 1.2rem;
+      margin: 0;
+      color: #ffb4b4;
+      font-size: 0.9rem;
+    }
+
+    .success {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 0.8rem;
+      text-align: center;
+      padding: 2rem;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+    }
+
+    .panel.is-sent .success {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+    }
+
+    .check {
+      width: 64px;
+      height: 64px;
+    }
+
+    .check circle {
+      fill: none;
+      stroke: #fff;
+      stroke-width: 1.5;
+      stroke-dasharray: 160;
+      stroke-dashoffset: 160;
+    }
+
+    .check path {
+      fill: none;
+      stroke: #fff;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 40;
+      stroke-dashoffset: 40;
+    }
+
+    .panel.is-sent .check circle,
+    .panel.is-sent .check path {
+      animation: draw 0.7s ease forwards;
+    }
+
+    .panel.is-sent .check path { animation-delay: 0.25s; }
+
+    .success h3 {
+      margin: 0.4rem 0 0;
+      font-size: 1.6rem;
+      font-weight: 500;
+      letter-spacing: -0.03em;
+    }
+
+    .success p { margin: 0; color: var(--muted); }
+
+    .hp {
+      position: absolute;
+      left: -9999px;
+      height: 0;
+      width: 0;
+      opacity: 0;
+    }
+
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+
+    @keyframes wave {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-18px); }
+    }
+
+    :focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 3px;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        width: min(640px, calc(100% - 2.5rem));
+        padding-top: 1.5rem;
+      }
+
+      .portrait img { max-height: 70vh; }
+
+      .wave {
+        grid-template-columns: repeat(2, 1fr);
+        width: min(520px, calc(100% - 2rem));
+        row-gap: 2rem;
+      }
+
+      .nav { padding: 0 1.25rem; }
+
+      footer {
+        flex-direction: column;
+        padding-inline: 1.25rem;
+      }
+
+      .contact {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        width: min(640px, calc(100% - 2.5rem));
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .tech,
+      .field span,
+      .pill span,
+      .send,
+      .form-body,
+      .success,
+      .panel.is-sent .check circle,
+      .panel.is-sent .check path { animation: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#contenido">Skip to content</a>
+
+  <header class="nav" id="nav">
+    <a class="word" href="#inicio">ONAN GABRIEL</a>
+    <ul class="menu">
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#stack">Stack</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </header>
+
+  <main id="contenido">
+    <section class="hero" id="inicio">
+      <figure class="portrait">
+        <img src="{% static 'datagab/gabi.webp' %}" alt="Onan Gabriel Lemus Hernandez">
+      </figure>
+      <div id="experience">
+        <p class="eyebrow">Software Engineer</p>
+        <h1>Onan Gabriel Lemus Hernandez</h1>
+        <p class="role">Web applications</p>
+        <p class="lede">More than 5 years building web applications with Django, React, Azure, GitHub Actions, PostgreSQL, Redis, and Celery.</p>
+        <div class="years">
+          <strong>+5</strong>
+          <span>years building web applications</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="stack" id="stack" aria-labelledby="stack-titulo">
+      <div class="stack-head">
+        <p class="eyebrow">Stack</p>
+        <h2 id="stack-titulo">Technologies</h2>
+      </div>
+      <ul class="wave">
+        <li class="tech">
+          <span class="orb" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#44B78B" d="M11.146 0h3.924v18.166c-2.013.382-3.491.535-5.096.535-4.791 0-7.288-2.166-7.288-6.32 0-4.002 2.65-6.6 6.753-6.6.637 0 1.121.05 1.707.203zm0 9.143a3.894 3.894 0 00-1.325-.204c-1.988 0-3.134 1.223-3.134 3.365 0 2.09 1.096 3.236 3.109 3.236.433 0 .79-.025 1.35-.102V9.142zM21.314 6.06v9.098c0 3.134-.229 4.638-.917 5.937-.637 1.249-1.478 2.039-3.211 2.905l-3.644-1.733c1.733-.815 2.574-1.53 3.109-2.625.561-1.121.739-2.421.739-5.835V6.059h3.924zM17.39.021h3.924v4.026H17.39z"/></svg>
+          </span>
+          <p>Django</p>
+        </li>
+        <li class="tech">
+          <span class="orb" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#61DAFB" d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"/></svg>
+          </span>
+          <p>React</p>
+        </li>
+        <li class="tech">
+          <span class="orb" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#0078D4" d="M22.379 23.343a1.62 1.62 0 0 0 1.536-2.14v.002L17.35 1.76A1.62 1.62 0 0 0 15.816.657H8.184A1.62 1.62 0 0 0 6.65 1.76L.086 21.204a1.62 1.62 0 0 0 1.536 2.139h4.741a1.62 1.62 0 0 0 1.535-1.103l.977-2.892 4.947 3.675c.28.208.618.32.966.32m-3.084-12.531 3.624 10.739a.54.54 0 0 1-.51.713v-.001h-.03a.54.54 0 0 1-.322-.106l-9.287-6.9h4.853m6.313 7.006c.116-.326.13-.694.007-1.058L9.79 1.76l-.007-.02h6.034a.54.54 0 0 1 .512.366l6.562 19.445a.54.54 0 0 1-.338.684"/></svg>
+          </span>
+          <p>Azure</p>
+        </li>
+        <li class="tech">
+          <span class="orb" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#FFFFFF" d="M10.984 13.836a.5.5 0 0 1-.353-.146l-.745-.743a.5.5 0 1 1 .706-.708l.392.391 1.181-1.18a.5.5 0 0 1 .708.707l-1.535 1.533a.504.504 0 0 1-.354.146zm9.353-.147 1.534-1.532a.5.5 0 0 0-.707-.707l-1.181 1.18-.392-.391a.5.5 0 1 0-.706.708l.746.743a.497.497 0 0 0 .706-.001zM4.527 7.452l2.557-1.585A1 1 0 0 0 7.09 4.17L4.533 2.56A1 1 0 0 0 3 3.406v3.196a1.001 1.001 0 0 0 1.527.85zm2.03-2.436L4 6.602V3.406l2.557 1.61zM24 12.5c0 1.93-1.57 3.5-3.5 3.5a3.503 3.503 0 0 1-3.46-3h-2.08a3.503 3.503 0 0 1-3.46 3 3.502 3.502 0 0 1-3.46-3h-.558c-.972 0-1.85-.399-2.482-1.042V17c0 1.654 1.346 3 3 3h.04c.244-1.693 1.7-3 3.46-3 1.93 0 3.5 1.57 3.5 3.5S13.43 24 11.5 24a3.502 3.502 0 0 1-3.46-3H8c-2.206 0-4-1.794-4-4V9.899A5.008 5.008 0 0 1 0 5c0-2.757 2.243-5 5-5s5 2.243 5 5a5.005 5.005 0 0 1-4.952 4.998A2.482 2.482 0 0 0 7.482 12h.558c.244-1.693 1.7-3 3.46-3a3.502 3.502 0 0 1 3.46 3h2.08a3.503 3.503 0 0 1 3.46-3c1.93 0 3.5 1.57 3.5 3.5zm-15 8c0 1.378 1.122 2.5 2.5 2.5s2.5-1.122 2.5-2.5-1.122-2.5-2.5-2.5S9 19.122 9 20.5zM5 9c2.206 0 4-1.794 4-4S7.206 1 5 1 1 2.794 1 5s1.794 4 4 4zm9 3.5c0-1.378-1.122-2.5-2.5-2.5S9 11.122 9 12.5s1.122 2.5 2.5 2.5 2.5-1.122 2.5-2.5zm9 0c0-1.378-1.122-2.5-2.5-2.5S18 11.122 18 12.5s1.122 2.5 2.5 2.5 2.5-1.122 2.5-2.5zm-13 8a.5.5 0 1 0 1 0 .5.5 0 0 0-1 0zm2 0a.5.5 0 1 0 1 0 .5.5 0 0 0-1 0zm12 0c0 1.93-1.57 3.5-3.5 3.5a3.503 3.503 0 0 1-3.46-3.002c-.007.001-.013.005-.021.005l-.506.017h-.017a.5.5 0 0 1-.016-.999l.506-.017c.018-.002.035.006.052.007A3.503 3.503 0 0 1 20.5 17c1.93 0 3.5 1.57 3.5 3.5zm-1 0c0-1.378-1.122-2.5-2.5-2.5S18 19.122 18 20.5s1.122 2.5 2.5 2.5 2.5-1.122 2.5-2.5z"/></svg>
+          </span>
+          <p>GitHub Actions</p>
+        </li>
+        <li class="tech">
+          <span class="orb" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#4169E1" d="M23.5594 14.7228a.5269.5269 0 0 0-.0563-.1191c-.139-.2632-.4768-.3418-1.0074-.2321-1.6533.3411-2.2935.1312-2.5256-.0191 1.342-2.0482 2.445-4.522 3.0411-6.8297.2714-1.0507.7982-3.5237.1222-4.7316a1.5641 1.5641 0 0 0-.1509-.235C21.6931.9086 19.8007.0248 17.5099.0005c-1.4947-.0158-2.7705.3461-3.1161.4794a9.449 9.449 0 0 0-.5159-.0816 8.044 8.044 0 0 0-1.3114-.1278c-1.1822-.0184-2.2038.2642-3.0498.8406-.8573-.3211-4.7888-1.645-7.2219.0788C.9359 2.1526.3086 3.8733.4302 6.3043c.0409.818.5069 3.334 1.2423 5.7436.4598 1.5065.9387 2.7019 1.4334 3.582.553.9942 1.1259 1.5933 1.7143 1.7895.4474.1491 1.1327.1441 1.8581-.7279.8012-.9635 1.5903-1.8258 1.9446-2.2069.4351.2355.9064.3625 1.39.3772a.0569.0569 0 0 0 .0004.0041 11.0312 11.0312 0 0 0-.2472.3054c-.3389.4302-.4094.5197-1.5002.7443-.3102.064-1.1344.2339-1.1464.8115-.0025.1224.0329.2309.0919.3268.2269.4231.9216.6097 1.015.6331 1.3345.3335 2.5044.092 3.3714-.6787-.017 2.231.0775 4.4174.3454 5.0874.2212.5529.7618 1.9045 2.4692 1.9043.2505 0 .5263-.0291.8296-.0941 1.7819-.3821 2.5557-1.1696 2.855-2.9059.1503-.8707.4016-2.8753.5388-4.1012.0169-.0703.0357-.1207.057-.1362.0007-.0005.0697-.0471.4272.0307a.3673.3673 0 0 0 .0443.0068l.2539.0223.0149.001c.8468.0384 1.9114-.1426 2.5312-.4308.6438-.2988 1.8057-1.0323 1.5951-1.6698z"/></svg>
+          </span>
+          <p>PostgreSQL</p>
+        </li>
+        <li class="tech">
+          <span class="orb" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#FF4438" d="M22.71 13.145c-1.66 2.092-3.452 4.483-7.038 4.483-3.203 0-4.397-2.825-4.48-5.12.701 1.484 2.073 2.685 4.214 2.63 4.117-.133 6.94-3.852 6.94-7.239 0-4.05-3.022-6.972-8.268-6.972-3.752 0-8.4 1.428-11.455 3.685C2.59 6.937 3.885 9.958 4.35 9.626c2.648-1.904 4.748-3.13 6.784-3.744C8.12 9.244.886 17.05 0 18.425c.1 1.261 1.66 4.648 2.424 4.648.232 0 .431-.133.664-.365a100.49 100.49 0 0 0 5.54-6.765c.222 3.104 1.748 6.898 6.014 6.898 3.819 0 7.604-2.756 9.33-8.965.2-.764-.73-1.361-1.261-.73zm-4.349-5.013c0 1.959-1.926 2.922-3.685 2.922-.941 0-1.664-.247-2.235-.568 1.051-1.592 2.092-3.225 3.21-4.973 1.972.334 2.71 1.43 2.71 2.619z"/></svg>
+          </span>
+          <p>Redis</p>
+        </li>
+        <li class="tech">
+          <span class="orb" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="#5CBF78" d="M2.303 0A2.298 2.298 0 0 0 0 2.303v19.394A2.298 2.298 0 0 0 2.303 24h19.394A2.298 2.298 0 0 0 24 21.697V2.303A2.298 2.298 0 0 0 21.697 0zm8.177 3.072c4.098 0 7.028 1.438 7.68 1.764l-1.194 2.55c-2.442-1.057-4.993-1.41-5.672-1.41-1.574 0-2.17.922-2.17 1.763v8.494c0 .869.596 1.791 2.17 1.791.679 0 3.23-.38 5.672-1.41l1.194 2.496c-.435.271-3.637 1.818-7.68 1.818-1.112 0-4.64-.244-4.64-4.64V7.713c0-4.397 3.528-4.64 4.64-4.64z"/></svg>
+          </span>
+          <p>Celery</p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="contact" id="contact" aria-labelledby="contact-titulo">
+      <div>
+        <p class="eyebrow">Contact</p>
+        <h2 id="contact-titulo">Tell me about the product you want to build.</h2>
+        <p class="lede">Share the service you need. I read every note and reply from the same inbox.</p>
+      </div>
+      <div class="panel" id="contact-panel">
+        <form class="form-body" id="contact-form" action="{% url 'contact' %}" method="post" novalidate>
+          {% csrf_token %}
+          <input class="hp" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <div>
+            <label class="field">
+              <input name="name" type="text" placeholder=" " maxlength="120" autocomplete="name" required>
+              <span>Name</span>
+            </label>
+            <p class="field-error" data-for="name"></p>
+          </div>
+          <div>
+            <label class="field">
+              <input name="email" type="email" placeholder=" " maxlength="254" autocomplete="email" required>
+              <span>Email</span>
+            </label>
+            <p class="field-error" data-for="email"></p>
+          </div>
+          <div>
+            <p class="choice-label">Service</p>
+            <div class="pills">
+              {% for value, label in services %}
+              <label class="pill">
+                <input type="radio" name="service" value="{{ value }}" {% if forloop.first %}checked{% endif %}>
+                <span>{{ label }}</span>
+              </label>
+              {% endfor %}
+            </div>
+            <p class="field-error" data-for="service"></p>
+          </div>
+          <div>
+            <label class="field">
+              <textarea name="message" placeholder=" " maxlength="4000" required></textarea>
+              <span>Project</span>
+            </label>
+            <p class="field-error" data-for="message"></p>
+          </div>
+          <div>
+            <div class="turnstile cf-turnstile" data-sitekey="{{ turnstile_site_key }}" data-theme="dark"></div>
+            <p class="field-error" data-for="turnstile"></p>
+          </div>
+          <button class="send" type="submit">Send message</button>
+          <p class="form-status" id="form-status" role="status"></p>
+        </form>
+        <div class="success" hidden>
+          <svg class="check" viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="32" r="26"></circle>
+            <path d="M20 33.5 28 41.5 44 24"></path>
+          </svg>
+          <h3>Message sent</h3>
+          <p>Thanks. I will reply to the email you left.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Onan Gabriel Lemus Hernandez</span>
+    <span>Software Engineer</span>
+  </footer>
+
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <script>
+    const nav = document.getElementById("nav");
+    const onScroll = () => nav.classList.toggle("is-scrolled", window.scrollY > 4);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    const form = document.getElementById("contact-form");
+    const panel = document.getElementById("contact-panel");
+    const status = document.getElementById("form-status");
+    const send = form.querySelector(".send");
+
+    const clearErrors = () => {
+      form.querySelectorAll(".field").forEach((field) => field.classList.remove("is-invalid"));
+      form.querySelectorAll(".field-error").forEach((node) => { node.textContent = ""; });
+      status.textContent = "";
+    };
+
+    const showErrors = (errors) => {
+      Object.entries(errors).forEach(([field, message]) => {
+        const note = form.querySelector(`[data-for="${field}"]`);
+        const input = form.elements[field];
+        if (note) note.textContent = message;
+        if (input && input.closest) input.closest(".field")?.classList.add("is-invalid");
+        if (field === "form") status.textContent = message;
+      });
+    };
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      clearErrors();
+      send.classList.add("is-loading");
+      send.textContent = "Sending";
+      try {
+        const response = await fetch(form.action, {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": form.querySelector("[name=csrfmiddlewaretoken]").value,
+            "Accept": "application/json",
+          },
+          body: new FormData(form),
+        });
+        const payload = await response.json();
+        if (!response.ok || !payload.ok) {
+          showErrors(payload.errors || { form: "The message could not be sent." });
+          if (window.turnstile) turnstile.reset();
+          return;
+        }
+        panel.classList.add("is-sent");
+        panel.querySelector(".success").hidden = false;
+        form.reset();
+      } catch (error) {
+        status.textContent = "The message could not be sent. Try again in a moment.";
+        if (window.turnstile) turnstile.reset();
+      } finally {
+        send.classList.remove("is-loading");
+        send.textContent = "Send message";
+      }
+    });
+  </script>
+</body>
+</html>
