@@ -462,6 +462,16 @@
 
     .turnstile { margin-top: 0.2rem; }
 
+    .is-dummy {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: 0;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
     .send {
       justify-self: start;
       border: 0;
@@ -819,7 +829,7 @@
             </label>
             <p class="field-error" data-for="message"></p>
           </div>
-          <div>
+          <div{% if turnstile_site_key|slice:":2" != "0x" %} class="is-dummy"{% endif %}>
             <div class="turnstile cf-turnstile" data-sitekey="{{ turnstile_site_key }}" data-theme="dark"></div>
             <p class="field-error" data-for="turnstile"></p>
           </div>
