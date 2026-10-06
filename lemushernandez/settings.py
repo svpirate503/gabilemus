@@ -27,12 +27,30 @@ load_dotenv(BASE_DIR / ".env", override=True)
 # SECURITY WARNING: keep the secret key used in production secret!
 
 
+def _flag(name, default):
+    raw = os.environ.get(name)
+    if raw is None or not raw.strip():
+        return default
+    return raw.strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _csv(name, default):
+    values = [item.strip() for item in os.environ.get(name, "").split(",") if item.strip()]
+    return values or default
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = _flag("DEBUG", False)
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+ALLOWED_HOSTS = _csv(
+    "ALLOWED_HOSTS",
+    ["gabilemus.com", "www.gabilemus.com", "localhost", "127.0.0.1"],
+)
 
-CSRF_TRUSTED_ORIGINS = ["https://gabilemus.com", "https://www.gabilemus.com"]
+CSRF_TRUSTED_ORIGINS = _csv(
+    "CSRF_TRUSTED_ORIGINS",
+    ["https://gabilemus.com", "https://www.gabilemus.com"],
+)
 # Application definition
 
 INSTALLED_APPS = [
@@ -123,6 +141,9 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"
 MAILGUN_API_KEY = os.environ.get("MAILGUN_API_KEY", "")
 MAILGUN_DOMAIN = os.environ.get("MAILGUN_DOMAIN", "")
 MAILGUN_API_BASE = os.environ.get("MAILGUN_API_BASE", "https://api.mailgun.net").rstrip("/")

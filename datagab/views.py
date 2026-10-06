@@ -5,7 +5,16 @@ from django.views.decorators.http import require_POST
 
 from .forms import ContactForm
 from .mailgun import MailgunError, send_inquiry
+from .models import Project
 from .turnstile import verify_turnstile
+
+
+def portfolio(request):
+    return render(
+        request,
+        "datagab/portfolio.html",
+        {"projects": Project.objects.all()},
+    )
 
 
 def gabriel(request):

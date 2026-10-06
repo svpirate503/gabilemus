@@ -63,14 +63,16 @@
     .nav.is-scrolled { border-bottom-color: var(--line); }
 
     .word {
+      flex-shrink: 0;
       font-size: 0.82rem;
       letter-spacing: 0.18em;
       font-weight: 500;
+      white-space: nowrap;
     }
 
     .menu {
       display: flex;
-      gap: 1.5rem;
+      gap: 1.1rem;
       list-style: none;
       margin: 0;
       padding: 0;
@@ -80,6 +82,7 @@
     .menu a {
       border-bottom: 1px solid transparent;
       padding-bottom: 0.1rem;
+      white-space: nowrap;
     }
 
     .menu a:hover { border-bottom-color: #fff; }
@@ -159,6 +162,63 @@
       max-width: 14rem;
     }
 
+    .about {
+      width: min(1180px, calc(100% - 4rem));
+      margin: 0 auto 6rem;
+      scroll-margin-top: calc(var(--header) + 1.5rem);
+    }
+
+    .about h2 {
+      margin: 0 0 1.25rem;
+      max-width: 16ch;
+      font-size: clamp(2rem, 3vw, 2.6rem);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+
+    .about-copy {
+      max-width: 40rem;
+    }
+
+    .about-copy p {
+      margin: 0 0 1rem;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .proof {
+      list-style: none;
+      margin: 2.4rem 0 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .shot {
+      margin: 0;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .shot img {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      object-position: top center;
+    }
+
+    .shot.is-preview img { object-position: center 42%; }
+
+    .shot figcaption {
+      padding: 0.8rem 1rem 0.95rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
     .stack {
       padding: 2rem 0 6rem;
       scroll-margin-top: var(--header);
@@ -175,6 +235,40 @@
       font-weight: 500;
       letter-spacing: -0.03em;
     }
+
+    .work {
+      width: min(1180px, calc(100% - 4rem));
+      margin: 0 auto 6rem;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .work h2 {
+      margin: 0;
+      max-width: 12ch;
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+
+    .work .lede { max-width: 28rem; }
+
+    .see-work {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      background: #fff;
+      color: #070708;
+      font-weight: 500;
+      padding: 0.85rem 1.35rem;
+      transition: transform 0.22s ease;
+    }
+
+    .see-work:hover { transform: translateY(-2px); }
 
     .wave {
       list-style: none;
@@ -503,6 +597,30 @@
         gap: 2rem;
         width: min(640px, calc(100% - 2.5rem));
       }
+
+      .about,
+      .work { width: min(640px, calc(100% - 2.5rem)); }
+
+      .work {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .proof { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .nav {
+        height: auto;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.65rem;
+        padding: 0.9rem 1.25rem 0.85rem;
+      }
+
+      .about,
+      .stack,
+      .contact { scroll-margin-top: 8.5rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -511,6 +629,7 @@
       .field span,
       .pill span,
       .send,
+      .see-work,
       .form-body,
       .success,
       .panel.is-sent .check circle,
@@ -525,6 +644,8 @@
     <a class="word" href="#inicio">ONAN GABRIEL</a>
     <ul class="menu">
       <li><a href="#experience">Experience</a></li>
+      <li><a href="#about">About me</a></li>
+      <li><a href="{% url 'portfolio' %}">Work</a></li>
       <li><a href="#stack">Stack</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
@@ -545,6 +666,54 @@
           <span>years building web applications</span>
         </div>
       </div>
+    </section>
+
+    <section class="about" id="about" aria-labelledby="about-titulo">
+      <p class="eyebrow">About me</p>
+      <h2 id="about-titulo">From a Python book to 3,000 students</h2>
+      <div class="about-copy">
+        <p>My name is Onan Gabriel Lemus Hernandez. I started getting into computers in 2019, when I read a book on ethical hacking that also taught programming with Python.</p>
+        <p>Two years later I began selling that knowledge in courses on Udemy. Students across Latin America left strong feedback, and the courses reached 3,000 learners.</p>
+        <p>After five years of teaching, I decided to earn a bachelor's degree in Computer Science at UMGC and take the profession further.</p>
+      </div>
+      <ul class="proof">
+        <li>
+          <figure class="shot">
+            <img src="{% static 'datagab/udemy1.png' %}" alt="Udemy instructor profile for Gabi-System showing 3,061 total learners and 46 reviews">
+            <figcaption>Instructor profile, with 3,061 learners and 46 reviews.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="shot is-preview">
+            <img src="{% static 'datagab/udemy2.png' %}" alt="Course preview of Ethical Hacking with Python: create scripts for ethical hacking">
+            <figcaption>Ethical Hacking with Python, the course that grew out of that first book.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="shot">
+            <img src="{% static 'datagab/udemy3.png' %}" alt="Six Udemy courses on Python, Django, and ethical hacking">
+            <figcaption>Six courses on Python, Django, and ethical hacking.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="shot">
+            <img src="{% static 'datagab/udemy4.png' %}" alt="Student reviews with ratings of 4.08 and 4.76">
+            <figcaption>Students marking the lessons as useful and clearly explained.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="shot">
+            <img src="{% static 'datagab/udemy5.png' %}" alt="Five-star student reviews, including the note that the course teaches very well">
+            <figcaption>Five-star notes, including one that says the course teaches very well.</figcaption>
+          </figure>
+        </li>
+        <li>
+          <figure class="shot">
+            <img src="{% static 'datagab/udemy6.png' %}" alt="Five-star review calling the course an excellent choice, with a 4.60 course rating">
+            <figcaption>A five-star review calling the course an excellent choice.</figcaption>
+          </figure>
+        </li>
+      </ul>
     </section>
 
     <section class="stack" id="stack" aria-labelledby="stack-titulo">
@@ -596,6 +765,15 @@
           <p>Celery</p>
         </li>
       </ul>
+    </section>
+
+    <section class="work" id="work" aria-labelledby="work-titulo">
+      <div>
+        <p class="eyebrow">Work I've done</p>
+        <h2 id="work-titulo">Sites and products</h2>
+        <p class="lede">A selection of the websites and products I have designed and built.</p>
+      </div>
+      <a class="see-work" href="{% url 'portfolio' %}">See the work</a>
     </section>
 
     <section class="contact" id="contact" aria-labelledby="contact-titulo">

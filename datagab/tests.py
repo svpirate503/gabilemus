@@ -1,9 +1,14 @@
+import io
+import tempfile
 from unittest.mock import patch
 from urllib.parse import parse_qs
 
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, override_settings
+from PIL import Image
 
 from datagab.mailgun import clean_name
+from datagab.models import Project
 
 MAILGUN = {
     "MAILGUN_API_KEY": "key-test",
@@ -92,3 +97,29 @@ class ContactTests(TestCase):
         response = self.post()
         self.assertEqual(response.status_code, 502)
         self.assertFalse(response.json()["ok"])
+
+
+def tiny_png(name="shot.png"):
+    buffer = io.BytesIO()
+    Image.new("RGB", (8, 8), (18, 18, 20)).save(buffer, format="PNG")
+    return SimpleUploadedFile(name, buffer.getvalue(), content_type="image/png")
+
+
+@override_settings(MEDIA_ROOT=tempfile.mkdtemp())
+class PortfolioTests(TestCase):
+    def test_home_links_to_portfolio(self):
+        response = self.client.get("/")
+        self.assertContains(response, "Work I've done")
+        self.assertContains(response, 'href="/portfolio/"')
+
+    def test_portfolio_lists_project_and_visit_link(self):
+        Project.objects.create(
+            title="name_example",
+            thumbnail=tiny_png(),
+            link="https://example.com",
+        )
+        response = self.client.get("/portfolio/")
+        self.assertContains(response, "name_example")
+        self.assertContains(response, "Visit site")
+        self.assertContains(response, 'href="https://example.com"')
+        self.assertContains(response, "/media/projects/")
