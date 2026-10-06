@@ -67,7 +67,7 @@ jobs:
           cd "$APP_DIR"
           git pull --ff-only origin main
 
-          python3 scripts/sync_production_env.py
+          python3 -c 'from pathlib import Path; p=Path(".env"); w={"DEBUG":"False","ALLOWED_HOSTS":"gabilemus.com,www.gabilemus.com,localhost,127.0.0.1","CSRF_TRUSTED_ORIGINS":"https://gabilemus.com,https://www.gabilemus.com"}; lines=p.read_text(encoding="utf-8").splitlines() if p.exists() else []; rows=[(line, line.strip().split("=",1)[0].strip() if line.strip() and line.strip()[0]!=chr(35) and "=" in line.strip() else "") for line in lines]; seen={key for line,key in rows if key in w}; out=[key+"="+w[key] if key in w else line for line,key in rows]; out+=[key+"="+w[key] for key in w if key not in seen]; p.write_text("\n".join(out)+"\n", encoding="utf-8")'
 
           source "$VENV_DIR/bin/activate"
           pip install -r requirements.txt
