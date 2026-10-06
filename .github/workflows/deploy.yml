@@ -67,20 +67,7 @@ jobs:
           cd "$APP_DIR"
           git pull --ff-only origin main
 
-          python3 -c 'from pathlib import Path; path = Path(".env"); wanted = {"DEBUG": "False", "ALLOWED_HOSTS": "gabilemus.com,www.gabilemus.com,localhost,127.0.0.1", "CSRF_TRUSTED_ORIGINS": "https://gabilemus.com,https://www.gabilemus.com"}; lines = path.read_text().splitlines() if path.exists() else []; seen = set(); out = [];
-for line in lines:
-    stripped = line.strip()
-    if not stripped or stripped.startswith("#") or "=" not in stripped:
-        out.append(line); continue
-    key = stripped.split("=", 1)[0].strip()
-    if key in wanted:
-        out.append(f"{key}={wanted[key]}"); seen.add(key)
-    else:
-        out.append(line)
-for key, value in wanted.items():
-    if key not in seen:
-        out.append(f"{key}={value}")
-path.write_text("\n".join(out) + "\n")'
+          python3 scripts/sync_production_env.py
 
           source "$VENV_DIR/bin/activate"
           pip install -r requirements.txt
