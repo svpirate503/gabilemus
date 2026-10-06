@@ -1,0 +1,78 @@
+name: CI/CD gabilemus
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+# Evita que dos despliegues se pisen entre sí
+concurrency:
+  group: gabilemus-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    env:
+      # Valores solo para CI; ajusta los nombres a los que lea tu settings.py
+      SECRET_KEY: ci-solo-para-tests
+      DEBUG: "True"
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"   # usa la misma versión que tu VPS
+          cache: pip
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Revisar configuración de Django
+        run: python manage.py check
+
+      - name: Ejecutar tests
+        run: python manage.py test
+
+  deploy:
+    name: Desplegar en VPS
+    needs: test
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    env:
+      VPS_HOST: ${{ secrets.VPS_HOST }}
+      VPS_USER: ${{ secrets.VPS_USER }}
+      VPS_PORT: ${{ secrets.VPS_PORT || '22' }}
+      VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+    steps:
+      - name: Configurar SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "$VPS_SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -p "$VPS_PORT" -H "$VPS_HOST" >> ~/.ssh/known_hosts
+
+      - name: Desplegar
+        run: |
+          ssh -p "$VPS_PORT" "$VPS_USER@$VPS_HOST" 'bash -se' <<'EOF'
+          set -euo pipefail
+
+          APP_DIR=/mnt/gabilemus     # ruta del proyecto en el VPS
+          VENV_DIR="$APP_DIR/venvv"       # ruta del entorno virtual
+          SERVICE=gunicorn               # nombre del servicio systemd
+
+          cd "$APP_DIR"
+          git pull --ff-only origin main
+
+          source "$VENV_DIR/bin/activate"
+          pip install -r requirements.txt
+          python manage.py migrate --noinput
+          python manage.py collectstatic --noinput
+
+          sudo systemctl restart "$SERVICE"
+          sudo systemctl is-active --quiet "$SERVICE"
+          echo "Despliegue completado"
+          EOF
