@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'datagab',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -142,7 +143,6 @@ STATIC_URL = 'static/'
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
 MAILGUN_API_KEY = os.environ.get("MAILGUN_API_KEY", "")
 MAILGUN_DOMAIN = os.environ.get("MAILGUN_DOMAIN", "")
@@ -154,5 +154,50 @@ TURNSTILE_SECRET_KEY = os.environ.get("TURNSTILE_SECRET_KEY", "")
 SECRET_KEY = os.environ.get("SECRET_KEY", "")
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+
+
+
+
+
+AZURE_ACCOUNT_NAME = os.environ.get('AZURE_ACCOUNT_NAME')
+AZURE_ACCOUNT_KEY = os.environ.get('AZURE_ACCOUNT_KEY')
+AZURE_CONTAINER = os.environ.get('AZURE_CONTAINER', 'gabi')
+
+
+
+
+
+
+
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.azure_storage.AzureStorage",
+        "OPTIONS": {
+            "account_name": AZURE_ACCOUNT_NAME,
+            "account_key": AZURE_ACCOUNT_KEY,
+            "azure_container": AZURE_CONTAINER,
+            "expiration_secs": None,  # None si el contenedor es de acceso público
+        },
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
+
+
+
+MEDIA_URL = f"https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/{AZURE_CONTAINER}/"
+
+
+
+
+
+
+
+
+
+
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
