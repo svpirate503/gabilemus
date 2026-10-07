@@ -11,4 +11,5 @@ requests==2.34.2
 sqlparse==0.6.0
 tzdata==2026.4
 urllib3==2.8.0
-django-storages azure-storage-blob
+django-storages
+azure-storage-blob
