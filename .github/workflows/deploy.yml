@@ -14,13 +14,7 @@ concurrency:
 
 
 
-- name: Run Tests
-  env:
-    AZURE_ACCOUNT_NAME: ${{ secrets.AZURE_ACCOUNT_NAME }}
-    AZURE_ACCOUNT_KEY: ${{ secrets.AZURE_ACCOUNT_KEY }}
-    AZURE_CONTAINER: ${{ secrets.AZURE_CONTAINER }}
-  run: |
-    python manage.py test
+
 
 jobs:
   test:
