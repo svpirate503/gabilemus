@@ -122,4 +122,4 @@ class PortfolioTests(TestCase):
         self.assertContains(response, "name_example")
         self.assertContains(response, "Visit site")
         self.assertContains(response, 'href="https://example.com"')
-        self.assertContains(response, project.thumbnail.url)
+        self.assertContains(response, Project.thumbnail.url)
