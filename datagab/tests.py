@@ -113,7 +113,7 @@ class PortfolioTests(TestCase):
         self.assertContains(response, 'href="/portfolio/"')
 
     def test_portfolio_lists_project_and_visit_link(self):
-        Project.objects.create(
+        project = Project.objects.create(
             title="name_example",
             thumbnail=tiny_png(),
             link="https://example.com",
@@ -122,4 +122,4 @@ class PortfolioTests(TestCase):
         self.assertContains(response, "name_example")
         self.assertContains(response, "Visit site")
         self.assertContains(response, 'href="https://example.com"')
-        self.assertContains(response, Project.thumbnail.url)
+        self.assertContains(response, project.thumbnail.url)
