@@ -21,35 +21,51 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env", override=True)
 
 
-IS_TESTING = 'test' in sys.argv or 'pytest' in sys.argv[0]
 
 
 
+
+
+
+
+
+
+
+
+
+
+IS_TESTING = 'test' in sys.argv or any('pytest' in arg for arg in sys.argv)
 
 if IS_TESTING:
+    MEDIA_URL = '/media/'
     STORAGES = {
         "default": {
-            "BACKEND": "django.core.files.storage.InMemoryStorage",
+            "BACKEND": "django.core.files.storage.FileSystemStorage",  # O InMemoryStorage
         },
         "staticfiles": {
             "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
         },
     }
 else:
+    AZURE_ACCOUNT_NAME = os.environ.get('AZURE_ACCOUNT_NAME')
+    AZURE_ACCOUNT_KEY = os.environ.get('AZURE_ACCOUNT_KEY')
+    AZURE_CONTAINER = os.environ.get('AZURE_CONTAINER', 'media')
+
+    MEDIA_URL = f"https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/{AZURE_CONTAINER}/"
     STORAGES = {
         "default": {
             "BACKEND": "storages.backends.azure_storage.AzureStorage",
             "OPTIONS": {
-                "account_name": os.environ.get("AZURE_ACCOUNT_NAME"),
-                "account_key": os.environ.get("AZURE_ACCOUNT_KEY"),
-                "azure_container": os.environ.get("AZURE_CONTAINER", "media"),
+                "account_name": AZURE_ACCOUNT_NAME,
+                "account_key": AZURE_ACCOUNT_KEY,
+                "azure_container": AZURE_CONTAINER,
+                "expiration_secs": None,
             },
         },
         "staticfiles": {
             "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
         },
     }
-
 
 
 
