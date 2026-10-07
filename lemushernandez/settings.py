@@ -21,10 +21,41 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env", override=True)
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
+IS_TESTING = 'test' in sys.argv or 'pytest' in sys.argv[0]
 
-# SECURITY WARNING: keep the secret key used in production secret!
+
+
+
+if IS_TESTING:
+    STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.InMemoryStorage",
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
+else:
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.azure_storage.AzureStorage",
+            "OPTIONS": {
+                "account_name": os.environ.get("AZURE_ACCOUNT_NAME"),
+                "account_key": os.environ.get("AZURE_ACCOUNT_KEY"),
+                "azure_container": os.environ.get("AZURE_CONTAINER", "media"),
+            },
+        },
+        "staticfiles": {
+            "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        },
+    }
+
+
+
+
+
+
+
 
 
 def _flag(name, default):
@@ -169,21 +200,6 @@ AZURE_CONTAINER = os.environ.get('AZURE_CONTAINER', 'gabi')
 
 
 
-
-STORAGES = {
-    "default": {
-        "BACKEND": "storages.backends.azure_storage.AzureStorage",
-        "OPTIONS": {
-            "account_name": AZURE_ACCOUNT_NAME,
-            "account_key": AZURE_ACCOUNT_KEY,
-            "azure_container": AZURE_CONTAINER,
-            "expiration_secs": None,  # None si el contenedor es de acceso público
-        },
-    },
-    "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
-    },
-}
 
 
 
