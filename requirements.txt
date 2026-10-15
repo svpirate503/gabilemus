@@ -13,3 +13,4 @@ tzdata==2026.4
 urllib3==2.8.0
 django-storages
 azure-storage-blob
+editado-desde-mi-rama
